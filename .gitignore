@@ -1,4 +1,6 @@
 .history/
+lib/
+**/.directory
 .dep
 *.o
 *.bin
