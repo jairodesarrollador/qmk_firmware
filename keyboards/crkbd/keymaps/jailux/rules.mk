@@ -1,5 +1,10 @@
 
 # If you want to change the display of OLED, you need to change here
+
+RGBLIGHT_ENABLE = yes 
+EXTRAKEY_ENABLE = yes
+MOUSEKEY_ENABLE = no 
+
 SRC +=  ./lib/glcdfont.c \
         ./lib/rgb_state_reader.c \
         ./lib/layer_state_reader.c \

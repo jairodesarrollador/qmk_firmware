@@ -2,6 +2,7 @@
 lib/
 **/.directory
 .dep
+*.vscode/
 *.o
 *.bin
 *.eep
