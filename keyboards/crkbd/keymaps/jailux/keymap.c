@@ -36,7 +36,6 @@ extern uint8_t is_master;
 #define _RAISE 2
 #define _ADJUST 3
 
-//#define KC_JXPU "."
 #define KC_JXPC ";"
 #define KC_JX2P ":"
 #define KC_JXMA ">"
@@ -60,10 +59,13 @@ enum macro_keycodes {
   JX_PCPA,
   JX_CDCS,
   JX_COMA,
-  JX_BSID
+  JX_BSID,
+  JX_UP,
+  JX_DOWN,
+  JX_LEFT,
+  JX_RGHT
 };
 
-//KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT
 static uint8_t saved_mods = 0;
 static uint8_t rastreadorDeCaracter = 0;
 
@@ -83,9 +85,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12,   KC_P0,                      JX_COMA,   KC_P7,   KC_P8,   KC_P9, KC_PPLS, KC_PAST,\
+       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12,   KC_P0,                      JX_COMA,   KC_P7,   JX_UP,   KC_P9, KC_PPLS, KC_PAST,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_HOME,                      JX_CDCS,   KC_P4,   KC_P5,   KC_P6, KC_QUES, KC_PIPE,\
+      KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_HOME,                      JX_CDCS, JX_LEFT, JX_DOWN, JX_RGHT, KC_QUES, KC_PIPE,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,   KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_END,                      JX_BSID,   KC_P1,   KC_P2,   KC_P3, KC_MINS, KC_AMPR,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -338,7 +340,119 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
                 rastreadorDeCaracter = 0;
             }
-            return false;    
+            return false;
+        case JX_UP:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_UP);
+                    }
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS EL NUMERO 8**/
+                    register_code(KC_P8);
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    /**ENVIAMOS UP**/
+                    register_code(KC_UP);
+                    rastreadorDeCaracter = 2;
+                }
+            }else{
+                if(rastreadorDeCaracter == 2){
+                    unregister_code(KC_UP);
+                }
+                if(rastreadorDeCaracter == 1){
+                    unregister_code(KC_P8);
+                }
+                rastreadorDeCaracter = 0;
+            }
+            return false;
+        case JX_DOWN:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_DOWN);
+                    }
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS EL NUMERO 5**/
+                    register_code(KC_P5);
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    /**ENVIAMOS DOWN**/
+                    register_code(KC_DOWN);
+                    rastreadorDeCaracter = 2;
+                }
+            }else{
+                if(rastreadorDeCaracter == 2){
+                    unregister_code(KC_DOWN);
+                }
+                if(rastreadorDeCaracter == 1){
+                    unregister_code(KC_P5);
+                }
+                rastreadorDeCaracter = 0;
+            }
+            return false;
+        case JX_LEFT:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_LEFT);
+                    }
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS EL NUMERO 5**/
+                    register_code(KC_P4);
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    /**ENVIAMOS DOWN**/
+                    register_code(KC_LEFT);
+                    rastreadorDeCaracter = 2;
+                }
+            }else{
+                if(rastreadorDeCaracter == 2){
+                    unregister_code(KC_LEFT);
+                }
+                if(rastreadorDeCaracter == 1){
+                    unregister_code(KC_P4);
+                }
+                rastreadorDeCaracter = 0;
+            }
+            return false;
+        case JX_RGHT:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_RGHT);
+                    }
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS EL NUMERO 5**/
+                    register_code(KC_P6);
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    /**ENVIAMOS DOWN**/
+                    register_code(KC_RGHT);
+                    rastreadorDeCaracter = 2;
+                }
+            }else{
+                if(rastreadorDeCaracter == 2){
+                    unregister_code(KC_RGHT);
+                }
+                if(rastreadorDeCaracter == 1){
+                    unregister_code(KC_P6);
+                }
+                rastreadorDeCaracter = 0;
+            }
+            return false; 
         case QWERTY:
             if (record->event.pressed) {
                 persistent_default_layer_set(1UL << _JAILUX);
