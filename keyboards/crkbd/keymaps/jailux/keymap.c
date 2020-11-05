@@ -36,8 +36,13 @@ extern uint8_t is_master;
 #define _RAISE 2
 #define _ADJUST 3
 
-#define KC_JXPU "."
+//#define KC_JXPU "."
 #define KC_JXPC ";"
+#define KC_JX2P ":"
+#define KC_JXMA ">"
+#define KC_JXME "<"
+#define KC_JXLA "{"
+#define KC_JXPA "("
 
 enum custom_keycodes { 
   QWERTY = SAFE_RANGE, 
@@ -45,22 +50,22 @@ enum custom_keycodes {
   RAISE, 
   ADJUST, 
   BACKLIT, 
-  RGBRST 
+  RGBRST
 };
 
-/*
 enum macro_keycodes {
-  KC_SAMPLEMACRO,
-};
-*/
-
-static uint8_t saved_mods = 0;
-enum macro_jailux { 
-  JX_IG2P = SAFE_RANGE, 
+  JX_IG2P, 
   JX_MAME,
   JX_PULA,
-  JX_PCPA
+  JX_PCPA,
+  JX_CDCS,
+  JX_COMA,
+  JX_BSID
 };
+
+//KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT
+static uint8_t saved_mods = 0;
+static uint8_t rastreadorDeCaracter = 0;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_JAILUX] = LAYOUT_split_3x6_3( \
@@ -78,11 +83,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                         KC_6,    KC_7,    KC_8,    KC_9,    KC_0, KC_BSPC,\
+       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12,   KC_P0,                      JX_COMA,   KC_P7,   KC_P8,   KC_P9, KC_PPLS, KC_PAST,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, XXXXXXX,\
+      KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_HOME,                      JX_CDCS,   KC_P4,   KC_P5,   KC_P6, KC_QUES, KC_PIPE,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
+      KC_LSFT,   KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_END,                      JX_BSID,   KC_P1,   KC_P2,   KC_P3, KC_MINS, KC_AMPR,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_RALT \
                                       //`--------------------------'  `--------------------------'
@@ -198,15 +203,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_EQUAL);
+                    }
                     del_mods(saved_mods);
-                    register_code(KC_COLN);
+                    /**ENVIAMOS LOS DOS PUNTOS (:)**/
+                    SEND_STRING(KC_JX2P);
+                    rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
+                    /**ENVIAMOS El IGUAL (=)**/
                     register_code(KC_EQUAL);
+                    rastreadorDeCaracter = 2;
                 }
             }else {
-              unregister_code(KC_COLN);
-              unregister_code(KC_EQUAL);
+              if(rastreadorDeCaracter == 2){
+                unregister_code(KC_EQUAL);
+              }
+              rastreadorDeCaracter = 0;
             }
             return false;
         case JX_MAME:
@@ -214,28 +228,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
                     del_mods(saved_mods);
-                    register_code(KC_GT);
+                    /**ENVIAMOS MAYOR (>)**/
+                    SEND_STRING(KC_JXMA);
                     add_mods(saved_mods);
                 } else {
-                    register_code(KC_LT);
+                    /**ENVIAMOS MENOR (<)**/
+                    SEND_STRING(KC_JXME);
                 }
-            }else {
-              unregister_code(KC_LT);
-              unregister_code(KC_GT);
             }
             return false;
         case JX_PULA:
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_DOT);
+                    }
                     del_mods(saved_mods);
-                    register_code(KC_LCBR);
+                    /**ENVIAMOS LLAVE ABIERTA({)**/
+                    SEND_STRING(KC_JXLA);
+                    rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
-                    SEND_STRING(KC_JXPU);
+                    /**ENVIAMOS EL PUNTO (.)**/
+                    register_code(KC_DOT);
+                    rastreadorDeCaracter = 2;
                 }
             }else{
-              unregister_code(KC_LCBR);
+                if(rastreadorDeCaracter == 2){
+                    unregister_code(KC_DOT);
+                }
+                rastreadorDeCaracter = 0;
             }
             return false;
         case JX_PCPA:
@@ -243,15 +266,79 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
                     del_mods(saved_mods);
-                    register_code(KC_LPRN);
+                    /**ENVIAMOS PARENTESIS ABIERTO( ( )**/
+                    SEND_STRING(KC_JXPA);
                     add_mods(saved_mods);
                 } else {
+                    /**ENVIAMOS PUNTO Y COMA ABIERTO( ; )**/
                     SEND_STRING(KC_JXPC);
                 }
-            }else{
-              unregister_code(KC_LPRN);
             }
             return false;
+        case JX_COMA:
+            if (record->event.pressed) {
+                /**ENVIAMOS COMA ( , )**/
+                SEND_STRING(SS_DOWN(X_COMMA));
+            }else{
+                SEND_STRING(SS_UP(X_COMMA));
+            }
+            return false;
+        case JX_CDCS:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        SEND_STRING(SS_UP(X_QUOTE) SS_UP(X_LSFT));
+                    }
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS COMILLAS DOBLES( ' )**/
+                    SEND_STRING(SS_DOWN(X_QUOTE));
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    /**ENVIAMOS COMILLAS DOBLES( " )**/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_QUOTE));
+                    rastreadorDeCaracter = 2;
+                }
+            }else{
+                if(rastreadorDeCaracter == 2){
+                    SEND_STRING(SS_UP(X_QUOTE) SS_UP(X_LSFT));
+                }
+                if(rastreadorDeCaracter == 1){
+                    SEND_STRING(SS_UP(X_QUOTE));
+                }
+                rastreadorDeCaracter = 0;
+            }
+            return false;
+        case JX_BSID:
+            saved_mods = get_mods() & MOD_MASK_SHIFT;
+            if (record->event.pressed) {
+                if (saved_mods) {
+                    if(rastreadorDeCaracter == 2){
+                        unregister_code(KC_PSLS);
+                    }
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS BSLASH ( \ )**/
+                    SEND_STRING(SS_DOWN(X_BSLASH));
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    /**ENVIAMOS SLASH ( / )**/
+                    register_code(KC_PSLS);
+                    rastreadorDeCaracter = 2;
+                }
+            }else{
+                if(rastreadorDeCaracter == 2){
+                    unregister_code(KC_PSLS);
+                }
+                if(rastreadorDeCaracter == 1){
+                    SEND_STRING(SS_UP(X_BSLASH));
+                }
+                rastreadorDeCaracter = 0;
+            }
+            return false;    
         case QWERTY:
             if (record->event.pressed) {
                 persistent_default_layer_set(1UL << _JAILUX);
