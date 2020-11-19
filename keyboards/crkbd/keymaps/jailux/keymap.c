@@ -36,72 +36,67 @@ extern uint8_t is_master;
 #define _RAISE 2
 #define _ADJUST 3
 
-#define KC_JXPC ";"
-#define KC_JX2P ":"
-#define KC_JXMA ">"
-#define KC_JXME "<"
-#define KC_JXLA "{"
-#define KC_JXPA "("
-
 enum custom_keycodes { 
-  QWERTY = SAFE_RANGE, 
-  LOWER, 
-  RAISE, 
-  ADJUST, 
-  BACKLIT, 
-  RGBRST
+    QWERTY = SAFE_RANGE, 
+    LOWER, 
+    RAISE, 
+    ADJUST, 
+    BACKLIT, 
+    RGBRST 
 };
 
-enum macro_keycodes {
-  JX_IG2P, 
-  JX_MAME,
-  JX_PULA,
-  JX_PCPA,
-  JX_CDCS,
-  JX_COMA,
-  JX_BSID,
-  JX_UP,
-  JX_DOWN,
-  JX_LEFT,
-  JX_RGHT
+enum macro_keycodes { 
+    JX_IG2P, 
+    JX_PULA, 
+    JX_PCPA, 
+    JX_CDCS, 
+    JX_COMA, 
+    JX_BSID, 
+    JX_UP, 
+    JX_DOWN, 
+    JX_LEFT, 
+    JX_RGHT, 
+    JX_QUES, 
+    JX_AMPR, 
+    JX_CORC, 
+    JX_VIGU 
 };
 
-static uint8_t saved_mods = 0;
+static uint8_t saved_mods           = 0;
 static uint8_t rastreadorDeCaracter = 0;
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_JAILUX] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,\
+       KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, JX_MAME,\
+      KC_LCTL,    KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN, KC_NUBS,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, JX_PCPA, JX_PULA, JX_IG2P, KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,  RAISE,  KC_RALT \
                                       //`--------------------------'  `--------------------------'
-
   ),
 
   [_LOWER] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12,   KC_P0,                      JX_COMA,   KC_P7,   JX_UP,   KC_P9, KC_PPLS, KC_PAST,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_HOME,                      JX_CDCS, JX_LEFT, JX_DOWN, JX_RGHT, KC_QUES, KC_PIPE,\
+      KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8, KC_HOME,                      JX_CDCS, JX_LEFT, JX_DOWN, JX_RGHT, JX_QUES,  KC_GRV,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT,   KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_END,                      JX_BSID,   KC_P1,   KC_P2,   KC_P3, KC_MINS, KC_AMPR,\
+      KC_LSFT,   KC_F1,   KC_F2,   KC_F3,   KC_F4,  KC_END,                      JX_BSID,   KC_P1,   KC_P2,   KC_P3, KC_SLSH, JX_AMPR,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_RALT \
                                       //`--------------------------'  `--------------------------'
-    ),
+  ),
 
   [_RAISE] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
        KC_ESC, KC_EXLM,   KC_AT, KC_HASH,  KC_DLR, KC_PERC,                      KC_CIRC, KC_AMPR, KC_ASTR, KC_LPRN, KC_RPRN, KC_BSPC,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_MINS,  KC_EQL, KC_LCBR, KC_RCBR, KC_PIPE,  KC_GRV,\
+      KC_LCTL, KC_MPLY, KC_VOLU,  KC_INS, KC_PGUP, KC_PSCR,                      JX_CORC, KC_COPY, KC_PSTE,  KC_CUT, KC_FIND, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_UNDS, KC_PLUS, KC_LBRC, KC_RBRC, KC_BSLS, KC_TILD,\
+      KC_LSFT, XXXXXXX, KC_VOLD,  KC_DEL, KC_PGDN, KC_CAPS,                      JX_VIGU, KC_PLUS, KC_LPRN, KC_BSLS, KC_LBRC, KC_TILD,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_RALT \
                                       //`--------------------------'  `--------------------------'
@@ -192,6 +187,150 @@ void iota_gfx_task_user(void) {
 }
 #endif  // SSD1306OLED
 
+void IG2P_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        SEND_STRING(SS_UP(X_DOT) SS_UP(X_LSFT));
+    }
+}
+
+void IG2P_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        SEND_STRING(SS_UP(X_0) SS_UP(X_LSFT));
+    }
+}
+
+void PULA_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_QUOT);
+    }
+}
+
+void PULA_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_DOT);
+    }
+}
+
+void PCPA_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        SEND_STRING(SS_UP(X_8) SS_UP(X_LSFT));
+    }
+}
+
+void PCPA_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        SEND_STRING(SS_UP(X_COMM) SS_UP(X_LSFT));
+    }
+}
+
+void COMA_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        SEND_STRING(SS_UP(X_NUHS) SS_UP(X_RALT));
+    }
+}
+
+void COMA_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_COMM);
+    }
+}
+
+void CDCS_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_MINS);
+    }
+}
+
+void CDCS_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        SEND_STRING(SS_UP(X_2) SS_UP(X_LSFT));
+    }
+}
+
+void BSID_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        SEND_STRING(SS_UP(X_MINS) SS_UP(X_RALT));
+    }
+}
+
+void BSID_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_PSLS);
+    }
+}
+
+void JXUP_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_P8);
+    }
+}
+
+void JXUP_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_UP);
+    }
+}
+
+void DOWN_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_P5);
+    }
+}
+
+void DOWN_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_DOWN);
+    }
+}
+
+void LEFT_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_P4);
+    }
+}
+
+void LEFT_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_LEFT);
+    }
+}
+
+void RGHT_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_P6);
+    }
+}
+
+void RGHT_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        unregister_code(KC_RGHT);
+    }
+}
+
+void QUES_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        unregister_code(KC_EQL);
+    }
+}
+
+void QUES_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        SEND_STRING(SS_UP(X_MINS) SS_UP(X_LSFT));
+    }
+}
+
+void CORC_up_secundario(uint8_t *rastreador) {
+    if (*rastreador == 1) {
+        SEND_STRING(SS_UP(X_NUHS) SS_UP(X_LSFT));
+    }
+}
+
+void CORC_up_principal(uint8_t *rastreador) {
+    if (*rastreador == 2) {
+        SEND_STRING(SS_UP(X_QUOT) SS_UP(X_LSFT));
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
 #ifdef SSD1306OLED
@@ -205,61 +344,43 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_EQUAL);
-                    }
+                    IG2P_up_principal(&rastreadorDeCaracter);
                     del_mods(saved_mods);
-                    /**ENVIAMOS LOS DOS PUNTOS (:)**/
-                    SEND_STRING(KC_JX2P);
+                    /**ENVIAMOS : **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_DOT));
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
-                    /**ENVIAMOS El IGUAL (=)**/
-                    register_code(KC_EQUAL);
+                    IG2P_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS = **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_0));
                     rastreadorDeCaracter = 2;
                 }
-            }else {
-              if(rastreadorDeCaracter == 2){
-                unregister_code(KC_EQUAL);
-              }
-              rastreadorDeCaracter = 0;
-            }
-            return false;
-        case JX_MAME:
-            if (record->event.pressed) {
-                saved_mods = get_mods() & MOD_MASK_SHIFT;
-                if (saved_mods) {
-                    del_mods(saved_mods);
-                    /**ENVIAMOS MAYOR (>)**/
-                    SEND_STRING(KC_JXMA);
-                    add_mods(saved_mods);
-                } else {
-                    /**ENVIAMOS MENOR (<)**/
-                    SEND_STRING(KC_JXME);
-                }
+            } else {
+                IG2P_up_principal(&rastreadorDeCaracter);
+                IG2P_up_secundario(&rastreadorDeCaracter);
+                rastreadorDeCaracter = 0;
             }
             return false;
         case JX_PULA:
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_DOT);
-                    }
+                    PULA_up_principal(&rastreadorDeCaracter);
                     del_mods(saved_mods);
-                    /**ENVIAMOS LLAVE ABIERTA({)**/
-                    SEND_STRING(KC_JXLA);
+                    /**ENVIAMOS { **/
+                    register_code(KC_QUOT);
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
-                    /**ENVIAMOS EL PUNTO (.)**/
+                    PULA_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS . **/
                     register_code(KC_DOT);
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    unregister_code(KC_DOT);
-                }
+            } else {
+                PULA_up_principal(&rastreadorDeCaracter);
+                PULA_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
             return false;
@@ -267,49 +388,67 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
+                    PCPA_up_principal(&rastreadorDeCaracter);
+
                     del_mods(saved_mods);
-                    /**ENVIAMOS PARENTESIS ABIERTO( ( )**/
-                    SEND_STRING(KC_JXPA);
+                    /**ENVIAMOS ( **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_8));
+                    rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
-                    /**ENVIAMOS PUNTO Y COMA ABIERTO( ; )**/
-                    SEND_STRING(KC_JXPC);
+                    PCPA_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS ; **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_COMM));
+                    rastreadorDeCaracter = 2;
                 }
+            } else {
+                PCPA_up_principal(&rastreadorDeCaracter);
+                PCPA_up_secundario(&rastreadorDeCaracter);
+                rastreadorDeCaracter = 0;
             }
             return false;
         case JX_COMA:
             if (record->event.pressed) {
-                /**ENVIAMOS COMA ( , )**/
-                SEND_STRING(SS_DOWN(X_COMMA));
-            }else{
-                SEND_STRING(SS_UP(X_COMMA));
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    COMA_up_principal(&rastreadorDeCaracter);
+                    del_mods(saved_mods);
+                    /**ENVIAMOS ` **/
+                    SEND_STRING(SS_DOWN(X_RALT) SS_DOWN(X_NUHS));
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    COMA_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS , **/
+                    register_code(KC_COMM);
+                    rastreadorDeCaracter = 2;
+                }
+            } else {
+                COMA_up_principal(&rastreadorDeCaracter);
+                COMA_up_secundario(&rastreadorDeCaracter);
+                rastreadorDeCaracter = 0;
             }
             return false;
         case JX_CDCS:
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        SEND_STRING(SS_UP(X_QUOTE) SS_UP(X_LSFT));
-                    }
+                    CDCS_up_principal(&rastreadorDeCaracter);
 
                     del_mods(saved_mods);
-                    /**ENVIAMOS COMILLAS DOBLES( ' )**/
-                    SEND_STRING(SS_DOWN(X_QUOTE));
+                    /**ENVIAMOS ' **/
+                    register_code(KC_MINS);
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
-                    /**ENVIAMOS COMILLAS DOBLES( " )**/
-                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_QUOTE));
+                    CDCS_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS " **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_2));
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    SEND_STRING(SS_UP(X_QUOTE) SS_UP(X_LSFT));
-                }
-                if(rastreadorDeCaracter == 1){
-                    SEND_STRING(SS_UP(X_QUOTE));
-                }
+            } else {
+                CDCS_up_principal(&rastreadorDeCaracter);
+                CDCS_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
             return false;
@@ -317,27 +456,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             saved_mods = get_mods() & MOD_MASK_SHIFT;
             if (record->event.pressed) {
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_PSLS);
-                    }
+                    BSID_up_principal(&rastreadorDeCaracter);
 
                     del_mods(saved_mods);
-                    /**ENVIAMOS BSLASH ( \ )**/
-                    SEND_STRING(SS_DOWN(X_BSLASH));
+                    /**ENVIAMOS \ **/
+                    SEND_STRING(SS_DOWN(X_RALT) SS_DOWN(X_MINS));
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
-                    /**ENVIAMOS SLASH ( / )**/
+                    BSID_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS / **/
                     register_code(KC_PSLS);
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    unregister_code(KC_PSLS);
-                }
-                if(rastreadorDeCaracter == 1){
-                    SEND_STRING(SS_UP(X_BSLASH));
-                }
+            } else {
+                BSID_up_principal(&rastreadorDeCaracter);
+                BSID_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
             return false;
@@ -345,9 +479,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_UP);
-                    }
+                    JXUP_up_principal(&rastreadorDeCaracter);
 
                     del_mods(saved_mods);
                     /**ENVIAMOS EL NUMERO 8**/
@@ -355,17 +487,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
+                    JXUP_up_secundario(&rastreadorDeCaracter);
                     /**ENVIAMOS UP**/
                     register_code(KC_UP);
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    unregister_code(KC_UP);
-                }
-                if(rastreadorDeCaracter == 1){
-                    unregister_code(KC_P8);
-                }
+            } else {
+                JXUP_up_principal(&rastreadorDeCaracter);
+                JXUP_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
             return false;
@@ -373,9 +502,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_DOWN);
-                    }
+                    DOWN_up_principal(&rastreadorDeCaracter);
 
                     del_mods(saved_mods);
                     /**ENVIAMOS EL NUMERO 5**/
@@ -383,17 +510,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
+                    DOWN_up_secundario(&rastreadorDeCaracter);
                     /**ENVIAMOS DOWN**/
                     register_code(KC_DOWN);
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    unregister_code(KC_DOWN);
-                }
-                if(rastreadorDeCaracter == 1){
-                    unregister_code(KC_P5);
-                }
+            } else {
+                DOWN_up_principal(&rastreadorDeCaracter);
+                DOWN_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
             return false;
@@ -401,27 +525,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_LEFT);
-                    }
+                    LEFT_up_principal(&rastreadorDeCaracter);
 
                     del_mods(saved_mods);
-                    /**ENVIAMOS EL NUMERO 5**/
+                    /**ENVIAMOS EL NUMERO 4**/
                     register_code(KC_P4);
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
+                    LEFT_up_secundario(&rastreadorDeCaracter);
                     /**ENVIAMOS DOWN**/
                     register_code(KC_LEFT);
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    unregister_code(KC_LEFT);
-                }
-                if(rastreadorDeCaracter == 1){
-                    unregister_code(KC_P4);
-                }
+            } else {
+                LEFT_up_principal(&rastreadorDeCaracter);
+                LEFT_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
             return false;
@@ -429,30 +548,87 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             if (record->event.pressed) {
                 saved_mods = get_mods() & MOD_MASK_SHIFT;
                 if (saved_mods) {
-                    if(rastreadorDeCaracter == 2){
-                        unregister_code(KC_RGHT);
-                    }
+                    RGHT_up_principal(&rastreadorDeCaracter);
 
                     del_mods(saved_mods);
-                    /**ENVIAMOS EL NUMERO 5**/
+                    /**ENVIAMOS EL NUMERO 6**/
                     register_code(KC_P6);
                     rastreadorDeCaracter = 1;
                     add_mods(saved_mods);
                 } else {
+                    RGHT_up_secundario(&rastreadorDeCaracter);
                     /**ENVIAMOS DOWN**/
                     register_code(KC_RGHT);
                     rastreadorDeCaracter = 2;
                 }
-            }else{
-                if(rastreadorDeCaracter == 2){
-                    unregister_code(KC_RGHT);
-                }
-                if(rastreadorDeCaracter == 1){
-                    unregister_code(KC_P6);
-                }
+            } else {
+                RGHT_up_principal(&rastreadorDeCaracter);
+                RGHT_up_secundario(&rastreadorDeCaracter);
                 rastreadorDeCaracter = 0;
             }
-            return false; 
+            return false;
+        case JX_QUES:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    QUES_up_principal(&rastreadorDeCaracter);
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS ¿ **/
+                    register_code(KC_EQL);
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    QUES_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS ? **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_MINS));
+                    rastreadorDeCaracter = 2;
+                }
+            } else {
+                QUES_up_principal(&rastreadorDeCaracter);
+                QUES_up_secundario(&rastreadorDeCaracter);
+                rastreadorDeCaracter = 0;
+            }
+            return false;
+        case JX_AMPR:
+            if (record->event.pressed) {
+                /**ENVIAMOS & **/
+                SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_6));
+            } else {
+                SEND_STRING(SS_UP(X_6) SS_UP(X_LSFT));
+            }
+            return false;
+        case JX_CORC:
+            if (record->event.pressed) {
+                saved_mods = get_mods() & MOD_MASK_SHIFT;
+                if (saved_mods) {
+                    CORC_up_principal(&rastreadorDeCaracter);
+
+                    del_mods(saved_mods);
+                    /**ENVIAMOS ] **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_NUHS));
+                    rastreadorDeCaracter = 1;
+                    add_mods(saved_mods);
+                } else {
+                    CORC_up_secundario(&rastreadorDeCaracter);
+                    /**ENVIAMOS [ **/
+                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_QUOT));
+                    rastreadorDeCaracter = 2;
+                }
+            } else {
+                CORC_up_principal(&rastreadorDeCaracter);
+                CORC_up_secundario(&rastreadorDeCaracter);
+                rastreadorDeCaracter = 0;
+            }
+            return false;
+        case JX_VIGU:
+            if (record->event.pressed) {
+                /**ENVIAMOS ~ **/
+                SEND_STRING(SS_DOWN(X_RALT) SS_DOWN(X_4));
+            } else {
+                SEND_STRING(SS_UP(X_4) SS_UP(X_RALT));
+            }
+            return false;
         case QWERTY:
             if (record->event.pressed) {
                 persistent_default_layer_set(1UL << _JAILUX);

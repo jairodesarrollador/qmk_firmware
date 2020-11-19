@@ -1,0 +1,13 @@
+1.- ir a la carpeta qmk
+
+$ sudo dfu-programmer atmega32u4 erase --force
+$ sudo dfu-programmer atmega32u4 flash jailux.hex
+$ sudo dfu-programmer atmega32u4 reset
+
+sudo make crkbd:jailux:dfu-split-right
+sudo make crkbd:jailux:dfu-split-left
+
+sudo make crkbd:default:dfu-split-righ
+sudo make crkbd:default:dfu-split-left
+
+
