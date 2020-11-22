@@ -73,19 +73,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, JX_PCPA, JX_PULA, JX_IG2P, KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,  RAISE,  KC_RALT \
+                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,  RAISE,  KC_LALT \
                                       //`--------------------------'  `--------------------------'
   ),
 
   [_LOWER] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12,   KC_P0,                      JX_COMA, JX_CORC,   KC_UP, JX_BSID, KC_PPLS, KC_PAST,\
+       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,                      JX_COMA, JX_CORC,   KC_UP, JX_BSID, KC_PPLS, KC_PAST,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8,  KC_END,                      JX_CDCS, KC_LEFT, KC_DOWN, KC_RGHT, JX_QUES,  KC_GRV,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,   KC_F1,   KC_F2,   KC_F3,   KC_F4, KC_HOME,                      JX_ARRO, KC_PLUS, KC_LPRN, KC_BSLS, KC_SLSH, JX_AMPR,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_RALT \
+                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_LALT \
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, KC_MUTE, KC_VOLD, KC_PGDN, XXXXXXX, KC_CAPS,                      JX_VIGU, XXXXXXX, XXXXXXX,  XXXXXXX, KC_LBRC, KC_APP,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_RALT \
+                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_LALT \
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -109,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       RGB_MOD, RGB_HUD, RGB_SAD, RGB_VAD, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_RALT \
+                                          KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_LALT \
                                       //`--------------------------'  `--------------------------'
   )
 };
@@ -186,102 +186,6 @@ void iota_gfx_task_user(void) {
 }
 #endif  // SSD1306OLED
 
-void IG2P_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        SEND_STRING(SS_UP(X_DOT));
-    }
-}
-
-void IG2P_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        SEND_STRING(SS_UP(X_0));
-    }
-}
-
-void PULA_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        unregister_code(KC_QUOT);
-    }
-}
-
-void PULA_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        unregister_code(KC_DOT);
-    }
-}
-
-void PCPA_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        SEND_STRING(SS_UP(X_8));
-    }
-}
-
-void PCPA_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        SEND_STRING(SS_UP(X_COMM));
-    }
-}
-
-void COMA_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        SEND_STRING(SS_UP(X_NUHS));
-    }
-}
-
-void COMA_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        unregister_code(KC_COMM);
-    }
-}
-
-void CDCS_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        unregister_code(KC_MINS);
-    }
-}
-
-void CDCS_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        SEND_STRING(SS_UP(X_2));
-    }
-}
-
-void BSID_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        SEND_STRING(SS_UP(X_MINS));
-    }
-}
-
-void BSID_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        unregister_code(KC_PSLS);
-    }
-}
-
-void QUES_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        unregister_code(KC_EQL);
-    }
-}
-
-void QUES_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        SEND_STRING(SS_UP(X_MINS));
-    }
-}
-
-void CORC_up_secundario(uint8_t *rastreador) {
-    if (*rastreador == kc_secundaria) {
-        SEND_STRING(SS_UP(X_NUHS));
-    }
-}
-
-void CORC_up_principal(uint8_t *rastreador) {
-    if (*rastreador == kc_principal) {
-        SEND_STRING(SS_UP(X_QUOT));
-    }
-}
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     if (record->event.pressed) {
 #ifdef SSD1306OLED
@@ -307,8 +211,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     del_mods(get_mods());
                 }
             } else {
-                IG2P_up_principal(&rastreadorDeCaracter);
-                IG2P_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    SEND_STRING(SS_UP(X_0));
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    SEND_STRING(SS_UP(X_DOT));
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -327,8 +235,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rastreadorDeCaracter = kc_principal;
                 }
             } else {
-                PULA_up_principal(&rastreadorDeCaracter);
-                PULA_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    unregister_code(KC_DOT);
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    unregister_code(KC_QUOT);
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -349,8 +261,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     del_mods(get_mods());
                 }
             } else {
-                PCPA_up_principal(&rastreadorDeCaracter);
-                PCPA_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    SEND_STRING(SS_UP(X_COMM));
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    SEND_STRING(SS_UP(X_8));
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -370,8 +286,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rastreadorDeCaracter = kc_principal;
                 }
             } else {
-                COMA_up_principal(&rastreadorDeCaracter);
-                COMA_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    unregister_code(KC_COMM);
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    SEND_STRING(SS_UP(X_NUHS));
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -391,8 +311,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     del_mods(get_mods());
                 }
             } else {
-                CDCS_up_principal(&rastreadorDeCaracter);
-                CDCS_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    SEND_STRING(SS_UP(X_2));
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    unregister_code(KC_MINS);
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -412,8 +336,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     rastreadorDeCaracter = kc_principal;
                 }
             } else {
-                BSID_up_principal(&rastreadorDeCaracter);
-                BSID_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    unregister_code(KC_PSLS);
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    SEND_STRING(SS_UP(X_MINS));
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -433,8 +361,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     del_mods(get_mods());
                 }
             } else {
-                QUES_up_principal(&rastreadorDeCaracter);
-                QUES_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    SEND_STRING(SS_UP(X_MINS));
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    unregister_code(KC_EQL);
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
@@ -476,8 +408,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                     del_mods(get_mods());
                 }
             } else {
-                CORC_up_principal(&rastreadorDeCaracter);
-                CORC_up_secundario(&rastreadorDeCaracter);
+                if (rastreadorDeCaracter == kc_principal) {
+                    SEND_STRING(SS_UP(X_QUOT));
+                }
+                if (rastreadorDeCaracter == kc_secundaria) {
+                    SEND_STRING(SS_UP(X_NUHS));
+                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
