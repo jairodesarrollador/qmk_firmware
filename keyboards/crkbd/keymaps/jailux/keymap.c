@@ -53,8 +53,7 @@ enum custom_keycodes {
     JX_AMPR, 
     JX_CORC, 
     JX_VIGU,
-    JX_ARRO,
-    JX_VIMS
+    JX_ARRO
 };
 
 
@@ -80,7 +79,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_LOWER] = LAYOUT_split_3x6_3( \
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12, JX_VIMS,                      JX_COMA, JX_CORC,   KC_UP, JX_BSID, KC_PPLS, KC_PAST,\
+       KC_ESC,   KC_F9,  KC_F10,  KC_F11,  KC_F12,    KC_Z,                      JX_COMA, JX_CORC,   KC_UP, JX_BSID, KC_PPLS, KC_PAST,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL,   KC_F5,   KC_F6,   KC_F7,   KC_F8,  KC_END,                      JX_CDCS, KC_LEFT, KC_DOWN, KC_RGHT, JX_QUES,  KC_GRV,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -96,7 +95,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, KC_MPLY, KC_VOLU, KC_PGUP,  KC_INS, KC_PSCR,                      KC_TILD, KC_COPY, KC_PSTE,  KC_CUT, KC_FIND,  KC_DEL,\
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, KC_MUTE, KC_VOLD, KC_PGDN, XXXXXXX, KC_CAPS,                      JX_VIGU, XXXXXXX, XXXXXXX,  XXXXXXX, KC_LBRC, KC_APP,\
+      KC_LSFT, KC_MUTE, KC_VOLD, KC_PGDN, XXXXXXX, KC_CAPS,                      JX_VIGU, XXXXXXX, XXXXXXX,  KC_APP, KC_LBRC, KC_RSFT,\
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           KC_LGUI,   LOWER,  KC_SPC,     KC_ENT,   RAISE, KC_LALT \
                                       //`--------------------------'  `--------------------------'
@@ -429,13 +428,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 SEND_STRING(SS_UP(X_4));
             }
             add_mods(saved_mods);
-            return false;
-        case JX_VIMS:
-            if (record->event.pressed) {
-                SEND_STRING(SS_DOWN(X_ESC) SS_LSFT("zz"));
-            } else {
-                SEND_STRING(SS_UP(X_ESC));
-            }
             return false;
         case QWERTY:
             if (record->event.pressed) {
