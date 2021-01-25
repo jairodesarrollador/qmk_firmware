@@ -1,4 +1,4 @@
-# Teclado programdor
+# Teclado programador
 
 He organizado las teclas que mas uso como programador de aplicaciones. Cualquier sugerencia es bienvenida
 
