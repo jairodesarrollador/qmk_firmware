@@ -251,22 +251,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 if (saved_mods & MOD_MASK_SHIFT) {
                     /**ENVIAMOS ( **/
                     del_mods(get_mods());
-                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_8));
+                    SEND_STRING("(hola");
                     rastreadorDeCaracter = kc_secundaria;
-                    del_mods(get_mods());
                 } else {
                     /**ENVIAMOS ; **/
-                    SEND_STRING(SS_DOWN(X_LSFT) SS_DOWN(X_COMM));
-                    rastreadorDeCaracter = kc_principal;
                     del_mods(get_mods());
+                    SEND_STRING(";");
+                    rastreadorDeCaracter = kc_principal;
                 }
             } else {
-                if (rastreadorDeCaracter == kc_principal) {
-                    SEND_STRING(SS_UP(X_COMM));
-                }
-                if (rastreadorDeCaracter == kc_secundaria) {
-                    SEND_STRING(SS_UP(X_8));
-                }
                 rastreadorDeCaracter = kc_indefinido;
             }
             add_mods(saved_mods);
